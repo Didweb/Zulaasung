@@ -1,4 +1,7 @@
-<<<<<<< HEAD
+# Archivos temporales
+.~*
+~*
+
 *.pyc
 =======
 # Byte-compiled / optimized / DLL files
@@ -90,4 +93,3 @@ ENV/
 
 # Rope project settings
 .ropeproject
->>>>>>> fd762684b0b39d3e16257bdca8b574be5a25e779
