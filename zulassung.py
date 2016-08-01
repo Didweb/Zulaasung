@@ -22,7 +22,61 @@
 #
 #
 
-import hashlib
+import sys
+
+import yaml
 
 
 
+
+class Control:
+
+	def __init__(self):
+		self.Users = self.readUsers()
+		self.Roles = self.readRoles()
+		self.Login = False
+
+
+	def readUsers(self):
+		fileYAML = open('data/data_users.yaml')
+		Users = yaml.safe_load(fileYAML)
+		fileYAML.close()
+		return Users
+
+	def readRoles(self):
+		fileYAML = open('data/data_roles.yaml')
+		Roles = yaml.safe_load(fileYAML)
+		fileYAML.close()
+		return Roles
+
+class User(Control):
+
+	def __init__(self):
+		Control.__init__(self)
+
+	def CheckRegister(self):
+		pass
+
+	def LoginUser(self,name,password):
+		Usuarios = self.Users['Users'].keys()
+		if name in Usuarios:
+			passwordData = self.Users['Users'][name]['password']
+			if passwordData == password:
+				print ('ACEPATDO')
+				self.Login = True
+
+			else:
+				print ('PASSWORD INCORRECTO')
+
+		else:
+			print ('USUARIO INCORRECTO')
+
+
+
+
+
+
+Controlador = User()
+#print ('Estado INICIAL --> ',Controlador.Login)
+#Controlador.LoginUser('edu','ze')
+#print ('Estado FINAL--> ',Controlador.Login)

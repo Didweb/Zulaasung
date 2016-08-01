@@ -1,0 +1,11 @@
+# Alamcenamos ROLES
+Roles:
+  ROLE_ADMIN:
+    ROLE_MODERATOR:
+      ROLE_EDIT:
+        ROLE_USER:
+          ROLE_VISIT:
+
+
+
+

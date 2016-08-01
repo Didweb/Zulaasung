@@ -1,0 +1,14 @@
+# Almacenamos Usuarios
+Users:
+
+  eduTest:
+    password: e
+    roles: ROLE_ADMIN
+
+  pep:
+    password: p
+    roles: ROLE_USER
+
+
+
+
