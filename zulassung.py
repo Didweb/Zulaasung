@@ -26,6 +26,30 @@ import sys
 
 import yaml
 
+class AuthException(Exception):
+
+	def __init__(self):
+		super(AuthException, self).__init__()
+
+class UserNotExist(AuthException):
+	def __str__(self):
+		return "Usuario No existe"
+
+class PasswordNotCorrect(AuthException):
+	def __str__(self):
+		return "Password incorrecto"
+
+
+class DobleRegistro(AuthException):
+	def __str__(self):
+		return "Se ha intentado registrar 2 veces. [Debe hacer LogOut]"
+
+
+class LoginIsFalse(AuthException):
+	def __str__(self):
+		return "No puede hacer LogOut sin Logearse antes."
+
+
 
 
 
@@ -43,33 +67,53 @@ class Control:
 		fileYAML.close()
 		return Users
 
+
 	def readRoles(self):
 		fileYAML = open('data/data_roles.yaml')
 		Roles = yaml.safe_load(fileYAML)
 		fileYAML.close()
 		return Roles
 
+
+
+
 class User(Control):
 
 	def __init__(self):
 		Control.__init__(self)
 
+
 	def CheckRegister(self):
 		pass
 
+
 	def LoginUser(self,name,password):
+		# Sistema de Login de usuario
 		Usuarios = self.Users['Users'].keys()
+
+		if self.Login == True:
+			raise DobleRegistro()
+
 		if name in Usuarios:
 			passwordData = self.Users['Users'][name]['password']
 			if passwordData == password:
-				print ('ACEPATDO')
 				self.Login = True
-
 			else:
-				print ('PASSWORD INCORRECTO')
+				raise PasswordNotCorrect()
 
 		else:
-			print ('USUARIO INCORRECTO')
+			raise UserNotExist()
+
+
+	def LoginOut(self):
+		# Salir del login
+		if self.Login == True:
+			self.Login = False
+		else:
+			raise LoginIsFalse()
+
+
+
 
 
 
@@ -77,6 +121,4 @@ class User(Control):
 
 
 Controlador = User()
-#print ('Estado INICIAL --> ',Controlador.Login)
-#Controlador.LoginUser('edu','ze')
-#print ('Estado FINAL--> ',Controlador.Login)
+

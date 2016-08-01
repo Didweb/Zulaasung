@@ -33,7 +33,8 @@ import yaml
 
 
 sys.path.append(os.getcwd())
-from zulassung import (Control,Controlador,User)
+from zulassung import (Control,Controlador,User,PasswordNotCorrect,
+						DobleRegistro,UserNotExist,LoginIsFalse)
 
 
 
@@ -44,6 +45,7 @@ class TestZulassung(unittest.TestCase):
 		UsersTest = yaml.safe_load(fileYAML)
 		fileYAML.close()
 		self.UsersTest = UsersTest
+
 
 
 	# Comprobamos que  Users sea un diccionario
@@ -66,8 +68,10 @@ class TestZulassung(unittest.TestCase):
 
 	# Comprobar Login con un usuario inexistente
 	def test_LoginUser_userFalse(self):
+		Controlador.Login = False
 		Controlador.Users = self.UsersTest
-		Controlador.LoginUser('pedro','x')
+		self.assertRaises(UserNotExist,
+							lambda:Controlador.LoginUser('pedro','x'))
 		EsFalso = Controlador.Login
 		self.assertFalse(EsFalso)
 
@@ -82,13 +86,28 @@ class TestZulassung(unittest.TestCase):
 
 	# Comprobar Login con Error en Password
 	def test_LoginUser_ErrorPassword(self):
-		Controlador.Users = self.UsersTest
-		Controlador.LoginUser('eduTest','xxx')
+		Controlador.Login = False
+		self.assertRaises(PasswordNotCorrect,
+						lambda:Controlador.LoginUser('eduTest','xxx'))
 		EsFalse = Controlador.Login
 		self.assertFalse(EsFalse)
 
 
+	# No se puede registrar si hay un login activo
+	def test_LoginUser_DobleRegistro(self):
+		Controlador.Login = False
+		Controlador.Users = self.UsersTest
+		self.assertRaises(DobleRegistro,
+							Controlador.LoginUser('eduTest','e'))
+		EsTrue = Controlador.Login
+		self.assertTrue(EsTrue)
 
+
+	# Impedir que se salgan del log con log False
+	def test_LoginOut(self):
+		self.assertRaises(LoginIsFalse, lambda:Controlador.LoginOut())
+		Esfalse = Controlador.Login
+		self.assertFalse(Esfalse)
 
 if __name__ == "__main__":
 	unittest.main()
