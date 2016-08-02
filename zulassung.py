@@ -22,43 +22,35 @@
 #
 #
 
-import sys
+
 
 import yaml
 
-class AuthException(Exception):
-
-	def __init__(self):
-		super(AuthException, self).__init__()
-
-class UserNotExist(AuthException):
-	def __str__(self):
-		return "Usuario No existe"
-
-class PasswordNotCorrect(AuthException):
-	def __str__(self):
-		return "Password incorrecto"
-
-
-class DobleRegistro(AuthException):
-	def __str__(self):
-		return "Se ha intentado registrar 2 veces. [Debe hacer LogOut]"
-
-
-class LoginIsFalse(AuthException):
-	def __str__(self):
-		return "No puede hacer LogOut sin Logearse antes."
-
-
-
-
+from exp_control import *
 
 class Control:
 
 	def __init__(self):
+
+		self.config = self.readConfig()
+		print (self.config)
+		print (self.data_users)
+		print (self.data_roles)
+		print (self.reg_users)
 		self.Users = self.readUsers()
 		self.Roles = self.readRoles()
 		self.Login = False
+
+
+
+	def readConfig(self):
+		fileYAML = open('config/config.yaml')
+		Config = yaml.safe_load(fileYAML)
+		fileYAML.close()
+		self.data_users = Config['data_users']
+		self.data_roles = Config['data_roles']
+		self.reg_users = Config['reg_users']
+		return Config
 
 
 	def readUsers(self):
