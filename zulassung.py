@@ -24,48 +24,23 @@
 
 
 
-import yaml
 
-from exp_control import *
+
+
+from control.exp_control import *
+
+from control.config_control import (CheckConfig)
 
 class Control:
 
 	def __init__(self):
 
-		self.config = self.readConfig()
-		print (self.config)
-		print (self.data_users)
-		print (self.data_roles)
-		print (self.reg_users)
-		self.Users = self.readUsers()
-		self.Roles = self.readRoles()
+		self.Users = 1 #self.readUsers()
+		self.Roles = 1 #self.readRoles()
 		self.Login = False
 
-
-
-	def readConfig(self):
-		fileYAML = open('config/config.yaml')
-		Config = yaml.safe_load(fileYAML)
-		fileYAML.close()
-		self.data_users = Config['data_users']
-		self.data_roles = Config['data_roles']
-		self.reg_users = Config['reg_users']
-		return Config
-
-
-	def readUsers(self):
-		fileYAML = open('data/data_users.yaml')
-		Users = yaml.safe_load(fileYAML)
-		fileYAML.close()
-		return Users
-
-
-	def readRoles(self):
-		fileYAML = open('data/data_roles.yaml')
-		Roles = yaml.safe_load(fileYAML)
-		fileYAML.close()
-		return Roles
-
+		Con = CheckConfig()
+		self.config = Con.Config
 
 
 

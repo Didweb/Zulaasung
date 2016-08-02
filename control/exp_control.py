@@ -37,6 +37,7 @@ class UserNotExist(AuthException):
 	def __str__(self):
 		return "Usuario No existe"
 
+
 class PasswordNotCorrect(AuthException):
 	def __str__(self):
 		return "Password incorrecto"
@@ -53,7 +54,10 @@ class LoginIsFalse(AuthException):
 
 
 class ErrorConfig(AuthException):
-	def __str__(self,variable):
-		return variable," No es una opción valida."
+	def __str__(self):
+		return "[Error:1] Error de configuración. "
 
+class ErrorConfigNoActivo(AuthException):
+	def __str__(self):
+		return "[Error:2] Error de configuración. Opción NO DISPONIBLE"
 

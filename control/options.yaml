@@ -1,0 +1,13 @@
+data_users:
+  - YAML
+  - MYSQL
+  - PSQL
+
+data_roles:
+  - YAML
+  - MYSQL
+  - PSQL
+
+reg_users:
+  - ROLE_ADMIN
+  - NONE
