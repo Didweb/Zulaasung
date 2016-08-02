@@ -1,1 +1,1 @@
-__all__ = ['AuthException', 'UserNotExist', 'PasswordNotCorrect', 'DobleRegistro', 'LoginIsFalse', 'ErrorConfig','NotCredential']
+__all__ = ['AuthException', 'UserNotExist', 'PasswordNotCorrect', 'DobleRegistro', 'LoginIsFalse', 'ErrorConfig','NotCredential','ValueNotReg']

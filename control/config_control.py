@@ -41,6 +41,8 @@ class CheckConfig:
 		BrutusConfig = self.readYaml('config','config.yaml')
 		OptionsConfig = self.readYaml('control','options.yaml')
 
+
+
 		Config = {}
 		Config['data_users'] = self.CheckValue(BrutusConfig['data_users'],OptionsConfig['data_users'])
 		Config['data_roles'] = self.CheckValue(BrutusConfig['data_roles'],OptionsConfig['data_roles'])
@@ -63,6 +65,6 @@ class CheckConfig:
 
 	def readYaml(self,NameFolder,NameFile):
 		fileYAML = open('./'+NameFolder+'/'+NameFile)
-		Res= yaml.safe_load(fileYAML)
+		Res = yaml.safe_load(fileYAML)
 		fileYAML.close()
 		return Res

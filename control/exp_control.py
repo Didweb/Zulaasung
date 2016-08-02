@@ -71,3 +71,7 @@ class NotCredential(AuthException):
 	def __str__(self):
 		return "[Error:4] Sin credenicales para registrar usuarios"
 
+class ValueNotReg(AuthException):
+	def __str__(self):
+		return "[Error:5] Valor No Existe "
+

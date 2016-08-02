@@ -29,23 +29,35 @@ from control.exp_control import (SinImplementar)
 class ServerData():
 
 	def __init__(self,Config):
-		#print ('Es Config',Config)
 
-		data_users = Config['data_users']
-		if data_users == 'YAML':
-			self.Users = self.YamlUser()
-		elif data_users == 'MYSQL':
+		self.Con = Config
+		self.data_users = self.Con.Config['data_users']
+
+		if self.data_users == 'YAML':
+			self.Users = self.Con.readYaml('data','data_users.yaml') #self.YamlUser()
+			self.Roles = self.Con.readYaml('data','data_roles.yaml')
+
+		elif self.data_users == 'MYSQL':
 			self.MysqlUser()
-		elif data_users == 'PSQL':
+		elif self.data_users == 'PSQL':
 			self.PsqlUser()
 
+	def EditRol(self,user,NewRole):
 
-	def YamlUser(self):
-		fileYAML = open('./data/data_users.yaml')
-		Res= yaml.safe_load(fileYAML)
-		fileYAML.close()
-		return Res
+		if self.data_users == 'YAML':
+			print ('Antes: ',self.Users['Users'][user]['roles'])
+			self.Users['Users'][user]['roles'] = NewRole
+			print ('Despues: ',self.Users['Users'][user]['roles'])
+			self.SaveUsers() # <----- Salvamos el resultado.
+		elif self.data_users == 'MYSQL':
+			raise SinImplementar()
 
+		elif self.data_users == 'PSQL':
+			raise SinImplementar()
+
+
+	def SaveUsers():
+		pass
 
 	def MysqlUser(self):
 		raise SinImplementar()

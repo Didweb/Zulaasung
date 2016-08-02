@@ -33,15 +33,20 @@ class Control:
 
 	def __init__(self):
 
-
+		# Inicializamos Login y Role
 		self.Login = False
 		self.Role = False
 
-		Con = CheckConfig()
-		self.reg_users = Con.Config['reg_users']
+		# Traemos Sistema de control
+		self.Con = CheckConfig()
 
-		Server = ServerData(Con.Config)
-		self.Users = Server.Users
+		# Permiso de registro de usuarios Admin o Visitas
+		self.reg_users = self.Con.Config['reg_users']
+
+		# Traemos el servidor de datos
+		self.Server = ServerData(self.Con)
+		self.Users = self.Server.Users
+		self.Roles = self.Server.Roles
 
 
 
@@ -54,6 +59,22 @@ class User(Control):
 
 	def CheckRegister(self):
 		pass
+
+
+	def EditUserRole(self,user,NewRole):
+		credencial = self.Credencial()
+
+		if credencial == True:
+			CheckValueRole = self.Con.CheckValue(NewRole,self.Roles['Roles'])
+			CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
+
+			if CheckValueRole != False and CheckValueUser != False:
+				self.Server.EditRol(user,NewRole)
+			else:
+				raise ValueNotReg()
+
+		else:
+			raise NotCredential()
 
 
 	def LoginUser(self,name,password):
@@ -78,6 +99,8 @@ class User(Control):
 
 
 	def Credencial(self):
+		""" Nos aseguramos de que tiene credenciales como Role_Admin
+		y esta  logeado """
 		if self.reg_users == 'ROLE_ADMIN':
 			if self.Login == False:
 				return False
