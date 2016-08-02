@@ -61,3 +61,8 @@ class ErrorConfigNoActivo(AuthException):
 	def __str__(self):
 		return "[Error:2] Error de configuración. Opción NO DISPONIBLE"
 
+
+class SinImplementar(AuthException):
+	def __str__(self):
+		return "[Error:3] Caracteristica sin implementar en la aplicación"
+

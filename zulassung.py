@@ -23,24 +23,23 @@
 #
 
 
-
-
-
-
 from control.exp_control import *
 
 from control.config_control import (CheckConfig)
+
+from data.server_data import (ServerData)
 
 class Control:
 
 	def __init__(self):
 
-		self.Users = 1 #self.readUsers()
-		self.Roles = 1 #self.readRoles()
+
 		self.Login = False
 
 		Con = CheckConfig()
-		self.config = Con.Config
+		Server = ServerData(Con.Config)
+		self.Users = Server.Users
+
 
 
 
@@ -78,13 +77,6 @@ class User(Control):
 			self.Login = False
 		else:
 			raise LoginIsFalse()
-
-
-
-
-
-
-
 
 
 Controlador = User()
