@@ -35,8 +35,11 @@ class Control:
 
 
 		self.Login = False
+		self.Role = False
 
 		Con = CheckConfig()
+		self.reg_users = Con.Config['reg_users']
+
 		Server = ServerData(Con.Config)
 		self.Users = Server.Users
 
@@ -64,11 +67,24 @@ class User(Control):
 			passwordData = self.Users['Users'][name]['password']
 			if passwordData == password:
 				self.Login = True
+				self.User = name
+				self.Role = self.Users['Users'][name]['roles']
+				self.Id = self.Users['Users'][name]['id']
 			else:
 				raise PasswordNotCorrect()
 
 		else:
 			raise UserNotExist()
+
+
+	def Credencial(self):
+		if self.reg_users == 'ROLE_ADMIN':
+			if self.Login == False:
+				return False
+			elif self.Role == 'ROLE_ADMIN':
+				return True
+		elif self.reg_users == 'NONE':
+			return True
 
 
 	def LoginOut(self):

@@ -4,10 +4,12 @@ Users:
   edu:
     password: e
     roles: ROLE_ADMIN
+    id: 1
 
   pep:
     password: p
     roles: ROLE_USER
+    id: 2
 
 
 

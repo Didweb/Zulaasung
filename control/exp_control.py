@@ -66,3 +66,8 @@ class SinImplementar(AuthException):
 	def __str__(self):
 		return "[Error:3] Caracteristica sin implementar en la aplicación"
 
+
+class NotCredential(AuthException):
+	def __str__(self):
+		return "[Error:4] Sin credenicales para registrar usuarios"
+
