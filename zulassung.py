@@ -64,17 +64,53 @@ class User(Control):
 	def EditUserRole(self,user,NewRole):
 		credencial = self.Credencial()
 
-		if credencial == True:
-			CheckValueRole = self.Con.CheckValue(NewRole,self.Roles['Roles'])
-			CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
 
-			if CheckValueRole != False and CheckValueUser != False:
-				self.Server.EditRol(user,NewRole)
-			else:
-				raise ValueNotReg()
+		CheckValueRole = self.Con.CheckValue(NewRole,self.Roles['Roles'])
+		CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
 
+
+		if CheckValueRole != False and CheckValueUser != False:
+			self.Server.EditRol(user,NewRole)
 		else:
-			raise NotCredential()
+			raise ValueNotReg()
+
+
+
+	def EditUserName(self,user,NewName):
+		credencial = self.Credencial()
+
+		CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
+
+
+		if CheckValueUser != False:
+			self.Server.EditName(user,NewName)
+		else:
+			raise ValueNotReg()
+
+
+	def DeleteUser(self,user):
+		credencial = self.Credencial()
+
+		CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
+
+		if user == self.User:
+			raise AutoDelete()
+
+		if CheckValueUser != False:
+			self.Server.DelUser(user)
+		else:
+			raise ValueNotReg()
+
+
+	def CheckRoleUser(self,user):
+		credencial = self.Credencial()
+		return self.Users['Users'][user]['roles']
+
+
+	def CheckIdUser(self,user):
+		credencial = self.Credencial()
+		return self.Users['Users'][user]['id']
+
 
 
 	def LoginUser(self,name,password):
@@ -103,11 +139,13 @@ class User(Control):
 		y esta  logeado """
 		if self.reg_users == 'ROLE_ADMIN':
 			if self.Login == False:
-				return False
+				raise NotCredential()
 			elif self.Role == 'ROLE_ADMIN':
 				return True
-		elif self.reg_users == 'NONE':
+		elif self.reg_users == 'NONE' and self.Role == 'ROLE_ADMIN':
 			return True
+		elif self.reg_users == 'NONE' and self.Role == False:
+			raise NotCredential()
 
 
 	def LoginOut(self):

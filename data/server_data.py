@@ -42,13 +42,13 @@ class ServerData():
 		elif self.data_users == 'PSQL':
 			self.PsqlUser()
 
-	def EditRol(self,user,NewRole):
+
+	def DelUser(self,user):
 
 		if self.data_users == 'YAML':
-			print ('Antes: ',self.Users['Users'][user]['roles'])
-			self.Users['Users'][user]['roles'] = NewRole
-			print ('Despues: ',self.Users['Users'][user]['roles'])
-			self.SaveUsers() # <----- Salvamos el resultado.
+			del self.Users['Users'][user]
+			self.SaveUsers(self.Users)
+
 		elif self.data_users == 'MYSQL':
 			raise SinImplementar()
 
@@ -56,8 +56,48 @@ class ServerData():
 			raise SinImplementar()
 
 
-	def SaveUsers():
-		pass
+	def EditRol(self,user,NewRole):
+
+		if self.data_users == 'YAML':
+			self.Users['Users'][user]['roles'] = NewRole
+			self.SaveUsers(self.Users)
+
+		elif self.data_users == 'MYSQL':
+			raise SinImplementar()
+
+		elif self.data_users == 'PSQL':
+			raise SinImplementar()
+
+
+	def EditName(self,user,NewName):
+
+		if self.data_users == 'YAML':
+			ElUser = self.Users['Users'][user]
+			Renmobrado = {'password':ElUser['password'],
+							'roles':ElUser['roles'],
+							'id':ElUser['id']}
+
+
+			self.Users['Users'][NewName] = Renmobrado
+			del self.Users['Users'][user]
+
+			self.SaveUsers(self.Users)
+
+		elif self.data_users == 'MYSQL':
+			raise SinImplementar()
+
+		elif self.data_users == 'PSQL':
+			raise SinImplementar()
+
+
+	def SaveUsers(self,data):
+
+		#stream = open('./data/data_users.yaml', 'w')
+		#Res = yaml.dump(data, stream)
+		#stream.close()
+		with open('./data/data_users.yaml', 'w') as outfile:
+			outfile.write( yaml.dump(data, default_flow_style=False) )
+		outfile.close()
 
 	def MysqlUser(self):
 		raise SinImplementar()

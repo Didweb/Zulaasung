@@ -75,3 +75,7 @@ class ValueNotReg(AuthException):
 	def __str__(self):
 		return "[Error:5] Valor No Existe "
 
+
+class AutoDelete(AuthException):
+	def __str__(self):
+		return "[Error:6] No puedes eliminarte a ti mismo.  Lo ha de hacer otro ADMIN o bine de forma manual en config"

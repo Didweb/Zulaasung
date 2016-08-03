@@ -1,6 +1,6 @@
 data_users: YAML    # origen de los datos Users Opciones: MYSQL | PSQL | YAML
 data_roles: YAML    # origen de los datos Roles Opciones: MYSQL | PSQL | YAML
 
-reg_users: ROLE_ADMIN    # registro de usuarios con Rol_Admin Opciones ROLE_ADMIN | NONE
+reg_users: NONE    # registro de usuarios con Rol_Admin Opciones ROLE_ADMIN | NONE
 
 

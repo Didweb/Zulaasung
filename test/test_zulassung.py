@@ -35,7 +35,8 @@ import yaml
 
 sys.path.append(os.getcwd())
 from zulassung import (Control,Controlador,User,PasswordNotCorrect,
-						DobleRegistro,UserNotExist,LoginIsFalse)
+						DobleRegistro,UserNotExist,LoginIsFalse,
+						NotCredential,ValueNotReg)
 
 
 
@@ -109,6 +110,53 @@ class TestZulassung(unittest.TestCase):
 		self.assertRaises(LoginIsFalse, lambda:Controlador.LoginOut())
 		Esfalse = Controlador.Login
 		self.assertFalse(Esfalse)
+
+
+	# Controlamos el sistema de credenciales, nadie registrado y ROLE_ADMIN.
+	def test_CredencialRole_Admin_and_False(self):
+		self.reg_users = 'ROLE_ADMIN'
+		self.Login = False
+		self.assertRaises(NotCredential, lambda:Controlador.Credencial())
+
+	# Controlamos el sistema de credenciales, nadie registrado y ROLE_ADMIN.
+	def test_Credencial_Role_and_True(self):
+		self.reg_users = 'ROLE_ADMIN'
+		self.Login = True
+		self.Role = 'ROLE_ADMIN'
+		self.assertTrue(lambda:Controlador.Credencial())
+
+
+	# Controlamos el sistema de credenciales, Sin control.
+	def test_Credencial_Not_Control(self):
+		self.reg_users = 'NONE'
+		self.assertTrue(lambda:Controlador.Credencial())
+
+	# Control de CheckRoleUser con permisos y sin registrar.
+	def test_CheckRoleUser_Role_Admin_Modo(self):
+		self.reg_users = 'ROLE_ADMIN'
+		self.Login = False
+		self.assertRaises(NotCredential, lambda:Controlador.CheckRoleUser('pep'))
+
+	# Control de CheckRoleUser con todo ok.
+	def test_CheckRoleUser_Role_Admin_Modo_ok(self):
+		self.reg_users = 'ROLE_ADMIN'
+		self.Role = 'ROLE_ADMIN'
+		Controlador.Users = self.UsersTest
+		self.Login = True
+		Res = Controlador.CheckRoleUser('pep')
+		self.assertEqual(Res,'ROLE_USER')
+
+
+	# Control de Editar nombre con nombre inexistente.
+	def test_EditUserName_No_Exist(self):
+		User = 'Juan'
+		NewName = 'Antonio'
+		self.reg_users = 'ROLE_ADMIN'
+		self.Role = 'ROLE_ADMIN'
+		self.Login = True
+		Controlador.Users = self.UsersTest
+
+		self.assertRaises(ValueNotReg, lambda:Controlador.EditUserName(User,NewName))
 
 if __name__ == "__main__":
 	unittest.main()
