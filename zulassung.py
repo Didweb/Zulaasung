@@ -57,9 +57,6 @@ class User(Control):
 		Control.__init__(self)
 
 
-	def CheckRegister(self):
-		pass
-
 
 	def EditUserRole(self,user,NewRole):
 		credencial = self.Credencial()
@@ -135,8 +132,6 @@ class User(Control):
 
 
 	def Credencial(self):
-		""" Nos aseguramos de que tiene credenciales como Role_Admin
-		y esta  logeado """
 		if self.reg_users == 'ROLE_ADMIN':
 			if self.Login == False:
 				raise NotCredential()

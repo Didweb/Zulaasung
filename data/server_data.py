@@ -26,6 +26,8 @@ import yaml
 
 from control.exp_control import (SinImplementar)
 
+from data.server_yaml import(ServerYaml)
+
 class ServerData():
 
 	def __init__(self,Config):
@@ -34,7 +36,7 @@ class ServerData():
 		self.data_users = self.Con.Config['data_users']
 
 		if self.data_users == 'YAML':
-			self.Users = self.Con.readYaml('data','data_users.yaml') #self.YamlUser()
+			self.Users = self.Con.readYaml('data','data_users.yaml')
 			self.Roles = self.Con.readYaml('data','data_roles.yaml')
 
 		elif self.data_users == 'MYSQL':
@@ -105,3 +107,6 @@ class ServerData():
 
 	def PsqlUser(self):
 		raise SinImplementar()
+
+
+
