@@ -2,15 +2,19 @@ Users:
   edu:
     id: 1
     password: e
-    roles: ROLE_ADMIN
+    roles: ROLE_VISIT
   juan:
     id: 3
     password: j
-    role: ROLE_USER
+    roles: ROLE_USER
+  miguel:
+    id: 6
+    password: m
+    roles: ROLE_USER
   niko:
     id: 5
     password: c
-    role: ROLE_EDIT
+    roles: ROLE_EDIT
   pep:
     id: 2
     password: p

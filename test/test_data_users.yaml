@@ -11,6 +11,9 @@ Users:
     roles: ROLE_USER
     id: 2
 
-
+  juan:
+    password: p
+    roles: ROLE_VISIT
+    id: 3
 
 

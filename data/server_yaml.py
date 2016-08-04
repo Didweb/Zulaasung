@@ -59,10 +59,11 @@ class ServerYaml():
 			IduserFinaly = self.CheckIduser(iduser,OptionIduser)
 
 			self.Users['Users'][user] = {'password':PassFinaly,
-											'role':RoleFinaly,
+											'roles':RoleFinaly,
 											'id':IduserFinaly}
 
 			self.SaveUsers(self.Users)
+			return True
 
 
 
@@ -134,14 +135,14 @@ class ServerYaml():
 
 	def EditRol(self,user,NewRole):
 
-
 		CheckValueRole = self.Con.CheckValue(NewRole,self.Roles['Roles'])
 		CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
 
-
 		if CheckValueRole != False and CheckValueUser != False:
+
 			self.Users['Users'][user]['roles'] = NewRole
 			self.SaveUsers(self.Users)
+			return True
 		else:
 			raise ValueNotReg()
 

@@ -61,41 +61,43 @@ class User(Control):
 
 	def RegUser(self,user,password,role = 'ROLE_USER',iduser = 0):
 
-		credencial = self.Credencial()
+		credencial = self.Credencial(user)
 		self.DataServer.RegUser(user,password,role,iduser)
 
 
 
 	def EditUserRole(self,user,NewRole):
 
-		credencial = self.Credencial()
-		self.DataServer.EditRol(user,NewRole)
+		if self.Role == 'ROLE_ADMIN' and self.User != user :
+			self.DataServer.EditRol(user,NewRole)
+		else:
+			raise NotCredential()
 
 
 
 	def EditUserName(self,user,NewName):
 
-		credencial = self.Credencial()
+		credencial = self.Credencial(user)
 		self.DataServer.EditName(user,NewName)
 
 
 
 	def DeleteUser(self,user):
 
-		credencial = self.Credencial()
+		credencial = self.Credencial(user)
 		self.DataServer.DelUser(user)
 
 
 
 	def CheckRoleUser(self,user):
 
-		credencial = self.Credencial()
+		credencial = self.Credencial(user)
 		return self.DataServer.CheckRoleUser(user)
 
 
 	def CheckIdUser(self,user):
 
-		credencial = self.Credencial()
+		credencial = self.Credencial(user)
 		return self.DataServer.CheckIdUser(user)
 
 
@@ -113,14 +115,24 @@ class User(Control):
 		self.Id = self.pase['id']
 
 
-	def Credencial(self):
+	def Credencial(self,user):
+
 		if self.reg_users == 'ROLE_ADMIN':
 			if self.Login == False:
 				raise NotCredential()
+
 			elif self.Role == 'ROLE_ADMIN':
 				return True
-		elif self.reg_users == 'NONE' and self.Role == 'ROLE_ADMIN':
+
+			elif self.Role != 'ROLE_ADMIN' and self.User == user:
+				return True
+
+			else:
+				raise NotCredential()
+
+		elif self.reg_users == 'NONE' and self.User == user:
 			return True
+
 		elif self.reg_users == 'NONE' and self.Role == False:
 			raise NotCredential()
 
