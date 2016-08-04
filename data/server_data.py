@@ -36,77 +36,36 @@ class ServerData():
 		self.data_users = self.Con.Config['data_users']
 
 		if self.data_users == 'YAML':
-			self.Users = self.Con.readYaml('data','data_users.yaml')
-			self.Roles = self.Con.readYaml('data','data_roles.yaml')
+			self.Datas = ServerYaml(self.Con)
+
 
 		elif self.data_users == 'MYSQL':
 			self.MysqlUser()
+
 		elif self.data_users == 'PSQL':
 			self.PsqlUser()
 
 
+
+
+
+	def Segurata(self,user,password):
+		return self.Datas.Segurata(user,password)
+
 	def DelUser(self,user):
-
-		if self.data_users == 'YAML':
-			del self.Users['Users'][user]
-			self.SaveUsers(self.Users)
-
-		elif self.data_users == 'MYSQL':
-			raise SinImplementar()
-
-		elif self.data_users == 'PSQL':
-			raise SinImplementar()
+		return self.Datas.DelUser(user)
 
 
 	def EditRol(self,user,NewRole):
-
-		if self.data_users == 'YAML':
-			self.Users['Users'][user]['roles'] = NewRole
-			self.SaveUsers(self.Users)
-
-		elif self.data_users == 'MYSQL':
-			raise SinImplementar()
-
-		elif self.data_users == 'PSQL':
-			raise SinImplementar()
+		return self.Datas.EditRol(user,NewRole)
 
 
 	def EditName(self,user,NewName):
-
-		if self.data_users == 'YAML':
-			ElUser = self.Users['Users'][user]
-			Renmobrado = {'password':ElUser['password'],
-							'roles':ElUser['roles'],
-							'id':ElUser['id']}
-
-
-			self.Users['Users'][NewName] = Renmobrado
-			del self.Users['Users'][user]
-
-			self.SaveUsers(self.Users)
-
-		elif self.data_users == 'MYSQL':
-			raise SinImplementar()
-
-		elif self.data_users == 'PSQL':
-			raise SinImplementar()
+		return self.Datas.EditName(user,NewName)
 
 
 	def SaveUsers(self,data):
+		return self.Datas.SaveUsers(data)
 
-		#stream = open('./data/data_users.yaml', 'w')
-		#Res = yaml.dump(data, stream)
-		#stream.close()
-		with open('./data/data_users.yaml', 'w') as outfile:
-			outfile.write( yaml.dump(data, default_flow_style=False) )
-		outfile.close()
-
-	def MysqlUser(self):
-		raise SinImplementar()
-
-
-	def PsqlUser(self):
-		raise SinImplementar()
-
-
-
+	def CheckRoleUser(self,user):
+		return self.Datas.RoleUser(user)

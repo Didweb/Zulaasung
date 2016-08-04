@@ -22,33 +22,101 @@
 #
 #
 
-
+import yaml
 
 class ServerYaml():
 
-	def __init__(self):
-		ServerData.__init__(self)
+	def __init__(self,Con):
+
+		self.Con = Con
+		self.Users = self.Con.readYaml('data','data_users.yaml')
+		self.Roles = self.Con.readYaml('data','data_roles.yaml')
 
 
 
+	def Segurata(self,user,password):
 
-	def EditRol(self,user,NewRole):
+		Usuarios = self.Users['Users'].keys()
 
-		self.Users['Users'][user]['roles'] = NewRole
-		self.SaveUsers(self.Users)
+		if user in Usuarios:
+			passwordData = self.Users['Users'][user]['password']
+			if passwordData == password:
+				self.Login = True
+				self.User = user
+				self.Role = self.Users['Users'][user]['roles']
+				self.Id = self.Users['Users'][user]['id']
+				self.pase = {'login':self.Login,
+							'user':self.User,
+							'role':self.Role,
+							'id':self.Id}
+				return self.pase
+			else:
+				raise PasswordNotCorrect()
+
+		else:
+			raise UserNotExist()
 
 
-	"""
-	def EditRol(self,user,NewRole):
 
-		if self.data_users == 'YAML':
-			self.Users['Users'][user]['roles'] = NewRole
+	def DelUser(self,user):
+
+		CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
+
+		if user == self.User:
+			raise AutoDelete()
+
+		if CheckValueUser != False:
+			del self.Users['Users'][user]
 			self.SaveUsers(self.Users)
 
-		elif self.data_users == 'MYSQL':
-			raise SinImplementar()
+		else:
+			raise ValueNotReg()
 
-		elif self.data_users == 'PSQL':
-			raise SinImplementar()
-	"""
 
+
+
+	def EditRol(self,user,NewRole):
+
+
+		CheckValueRole = self.Con.CheckValue(NewRole,self.Roles['Roles'])
+		CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
+
+
+		if CheckValueRole != False and CheckValueUser != False:
+			self.Users['Users'][user]['roles'] = NewRole
+			self.SaveUsers(self.Users)
+		else:
+			raise ValueNotReg()
+
+
+
+	def EditName(self,user,NewName):
+
+		CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
+
+
+		if CheckValueUser != False:
+			ElUser = self.Users['Users'][user]
+			Renmobrado = {'password':ElUser['password'],
+							'roles':ElUser['roles'],
+							'id':ElUser['id']}
+
+			self.Users['Users'][NewName] = Renmobrado
+			del self.Users['Users'][user]
+
+			self.SaveUsers(self.Users)
+
+		else:
+			raise ValueNotReg()
+
+
+
+	def RoleUser(self,user):
+		return self.Users['Users'][user]['roles']
+
+
+	def SaveUsers(self,data):
+
+		with open('./data/data_users.yaml', 'w') as outfile:
+			outfile.write( yaml.dump(data, default_flow_style=False) )
+		outfile.close()

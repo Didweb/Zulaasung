@@ -36,6 +36,8 @@ class Control:
 		# Inicializamos Login y Role
 		self.Login = False
 		self.Role = False
+		self.pase = False
+
 
 		# Traemos Sistema de control
 		self.Con = CheckConfig()
@@ -44,9 +46,9 @@ class Control:
 		self.reg_users = self.Con.Config['reg_users']
 
 		# Traemos el servidor de datos
-		self.Server = ServerData(self.Con)
-		self.Users = self.Server.Users
-		self.Roles = self.Server.Roles
+		self.DataServer = ServerData(self.Con)
+		#self.Users = self.Server.Users
+		#self.Roles = self.Server.Roles
 
 
 
@@ -59,49 +61,30 @@ class User(Control):
 
 
 	def EditUserRole(self,user,NewRole):
+
 		credencial = self.Credencial()
-
-
-		CheckValueRole = self.Con.CheckValue(NewRole,self.Roles['Roles'])
-		CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
-
-
-		if CheckValueRole != False and CheckValueUser != False:
-			self.Server.EditRol(user,NewRole)
-		else:
-			raise ValueNotReg()
+		self.DataServer.EditRol(user,NewRole)
 
 
 
 	def EditUserName(self,user,NewName):
+
 		credencial = self.Credencial()
+		self.DataServer.EditName(user,NewName)
 
-		CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
-
-
-		if CheckValueUser != False:
-			self.Server.EditName(user,NewName)
-		else:
-			raise ValueNotReg()
 
 
 	def DeleteUser(self,user):
+
 		credencial = self.Credencial()
+		self.DataServer.DelUser(user)
 
-		CheckValueUser = self.Con.CheckValue(user,self.Users['Users'])
-
-		if user == self.User:
-			raise AutoDelete()
-
-		if CheckValueUser != False:
-			self.Server.DelUser(user)
-		else:
-			raise ValueNotReg()
 
 
 	def CheckRoleUser(self,user):
+
 		credencial = self.Credencial()
-		return self.Users['Users'][user]['roles']
+		return self.DataServer.CheckRoleUser(user)
 
 
 	def CheckIdUser(self,user):
@@ -111,24 +94,16 @@ class User(Control):
 
 
 	def LoginUser(self,name,password):
-		# Sistema de Login de usuario
-		Usuarios = self.Users['Users'].keys()
 
 		if self.Login == True:
 			raise DobleRegistro()
 
-		if name in Usuarios:
-			passwordData = self.Users['Users'][name]['password']
-			if passwordData == password:
-				self.Login = True
-				self.User = name
-				self.Role = self.Users['Users'][name]['roles']
-				self.Id = self.Users['Users'][name]['id']
-			else:
-				raise PasswordNotCorrect()
+		self.pase = self.DataServer.Segurata(name,password)
 
-		else:
-			raise UserNotExist()
+		self.Login = self.pase['login']
+		self.User = self.pase['user']
+		self.Role = self.pase['role']
+		self.Id = self.pase['id']
 
 
 	def Credencial(self):
@@ -147,6 +122,7 @@ class User(Control):
 		# Salir del login
 		if self.Login == True:
 			self.Login = False
+			self.pase = False
 		else:
 			raise LoginIsFalse()
 
