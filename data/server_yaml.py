@@ -22,6 +22,8 @@
 #
 #
 
+from control.exp_control import (SinImplementar,PasswordNotCorrect,UserNotExist,DuplicateUser)
+
 import yaml
 
 class ServerYaml():
@@ -31,6 +33,61 @@ class ServerYaml():
 		self.Con = Con
 		self.Users = self.Con.readYaml('data','data_users.yaml')
 		self.Roles = self.Con.readYaml('data','data_roles.yaml')
+
+
+
+	def RegisterUser(self,OptionIduser,user,password,role,iduser):
+
+		Usuarios = self.Users['Users'].keys()
+
+		if user in Usuarios:
+			raise DuplicateUser()
+		else:
+			ResPw = self.Con.CheckPassword(password)
+			if ResPw == True:
+
+				PassFinaly = self.Con.EncryptPw(password)
+
+			CheckValueRole = self.Con.CheckValue(role,self.Roles['Roles'])
+
+			if CheckValueRole == False:
+				raise ValueNotReg()
+			else:
+				RoleFinaly = role
+
+
+			IduserFinaly = self.CheckIduser(iduser,OptionIduser)
+
+			self.Users['Users'][user] = {'password':PassFinaly,
+											'role':RoleFinaly,
+											'id':IduserFinaly}
+
+			self.SaveUsers(self.Users)
+
+
+
+
+	def CheckIduser(self,iduser,OptionIduser):
+
+		OpIdUser =  OptionIduser
+
+		if OpIdUser == 'IN_BBDD':
+			raise ErrorConfig()
+
+		elif OpIdUser == 'NONE':
+			iduser = iduser
+			return iduser
+
+		elif OpIdUser == 'AUTO':
+			l = []
+			for nombre in self.Users['Users']:
+				ids = self.Users['Users'][nombre]['id']
+				l.append(ids)
+
+			MayorMenor = sorted(l, reverse = True)
+			iduser = MayorMenor[0]+1
+			return iduser
+
 
 
 
@@ -112,7 +169,21 @@ class ServerYaml():
 
 
 	def RoleUser(self,user):
-		return self.Users['Users'][user]['roles']
+
+		if user in self.Users['Users']:
+			return self.Users['Users'][user]['roles']
+		else:
+			raise UserNotExist()
+
+
+
+	def IdUser(self,user):
+
+		if user in self.Users['Users']:
+			return self.Users['Users'][user]['id']
+		else:
+			raise UserNotExist()
+
 
 
 	def SaveUsers(self,data):

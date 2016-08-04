@@ -59,6 +59,12 @@ class User(Control):
 		Control.__init__(self)
 
 
+	def RegUser(self,user,password,role = 'ROLE_USER',iduser = 0):
+
+		credencial = self.Credencial()
+		self.DataServer.RegUser(user,password,role,iduser)
+
+
 
 	def EditUserRole(self,user,NewRole):
 
@@ -88,8 +94,9 @@ class User(Control):
 
 
 	def CheckIdUser(self,user):
+
 		credencial = self.Credencial()
-		return self.Users['Users'][user]['id']
+		return self.DataServer.CheckIdUser(user)
 
 
 

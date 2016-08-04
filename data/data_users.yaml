@@ -3,3 +3,15 @@ Users:
     id: 1
     password: e
     roles: ROLE_ADMIN
+  juan:
+    id: 3
+    password: j
+    role: ROLE_USER
+  niko:
+    id: 5
+    password: c
+    role: ROLE_EDIT
+  pep:
+    id: 2
+    password: p
+    roles: ROLE_USER

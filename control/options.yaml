@@ -11,3 +11,21 @@ data_roles:
 reg_users:
   - ROLE_ADMIN
   - NONE
+
+iduser:
+  - AUTO
+  - NONE
+  - IN_BBDD
+
+pw_encrypt:
+  - NONE
+  - MD5
+
+pw_min:
+  - 3
+
+pw_type:
+  - SIMPLE
+  - ALFA_NUM
+  - ALFA_NUM_SYMBOL
+  - CAPS_ALFA_NUM_SYMBOL

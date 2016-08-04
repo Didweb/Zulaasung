@@ -47,10 +47,15 @@ class ServerData():
 
 
 
+	def RegUser(self,user,password,role,iduser):
+		OptIduser = self.Con.Config['iduser']
+		return self.Datas.RegisterUser(OptIduser,user,password,role,iduser)
+
 
 
 	def Segurata(self,user,password):
 		return self.Datas.Segurata(user,password)
+
 
 	def DelUser(self,user):
 		return self.Datas.DelUser(user)
@@ -69,3 +74,6 @@ class ServerData():
 
 	def CheckRoleUser(self,user):
 		return self.Datas.RoleUser(user)
+
+	def CheckIdUser(self,user):
+		return self.Datas.IdUser(user)

@@ -31,26 +31,32 @@ class AuthException(Exception):
 		super(AuthException, self).__init__()
 
 
+class DuplicateUser(AuthException):
+	def __str__(self):
+		return " [Error 7] Nombre de usuario duplicado"
 
+class ErrorPasword(AuthException):
+	def __str__(self):
+		return " [Error 8] Password no adecuado a normas de configuracion "
 
 class UserNotExist(AuthException):
 	def __str__(self):
-		return "Usuario No existe"
+		return " [Error 9] Usuario No existe"
 
 
 class PasswordNotCorrect(AuthException):
 	def __str__(self):
-		return "Password incorrecto"
+		return " [Error 10] Password incorrecto"
 
 
 class DobleRegistro(AuthException):
 	def __str__(self):
-		return "Se ha intentado registrar 2 veces. [Debe hacer LogOut]"
+		return " [Error 11] Se ha intentado registrar 2 veces. [Debe hacer LogOut]"
 
 
 class LoginIsFalse(AuthException):
 	def __str__(self):
-		return "No puede hacer LogOut sin Logearse antes."
+		return " [Error 12] No puede hacer LogOut sin Logearse antes."
 
 
 class ErrorConfig(AuthException):
