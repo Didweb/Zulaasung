@@ -37,6 +37,7 @@ class Control:
 		self.Login = False
 		self.Role = False
 		self.pase = False
+		self.User = False
 
 
 		# Traemos Sistema de control
@@ -107,6 +108,7 @@ class User(Control):
 		if self.Login == True:
 			raise DobleRegistro()
 
+		credencial = self.Credencial(name)
 		self.pase = self.DataServer.Segurata(name,password)
 
 		self.Login = self.pase['login']
@@ -130,7 +132,10 @@ class User(Control):
 			else:
 				raise NotCredential()
 
-		elif self.reg_users == 'NONE' and self.User == user:
+		elif self.reg_users == 'NONE'  and self.User == user:
+			return True
+
+		elif self.reg_users == 'NONE'  and self.User == False :
 			return True
 
 		elif self.reg_users == 'NONE' and self.Role == False:

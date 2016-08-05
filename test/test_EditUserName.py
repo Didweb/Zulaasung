@@ -40,7 +40,7 @@ from zulassung import (Control,Controlador,User,PasswordNotCorrect,
 
 
 
-class TestZulassung(unittest.TestCase):
+class TestEditUserName(unittest.TestCase):
 
 	def setUp(self):
 		fileYAML = open('./test/test_data_users.yaml')

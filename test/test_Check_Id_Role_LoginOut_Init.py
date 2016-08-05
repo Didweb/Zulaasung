@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  zulassung_test.py
+#  test_Check_Id_Role_LoginOut_Init.py
 #
 #  Copyright 2016 Eduard Pinuaga Linares <info@did-web.com>
 #
@@ -40,7 +40,7 @@ from zulassung import (Control,Controlador,User,PasswordNotCorrect,
 
 
 
-class TestZulassung(unittest.TestCase):
+class TestCheck_Id_Role_LoginOut_Init(unittest.TestCase):
 
 	def setUp(self):
 		fileYAML = open('./test/test_data_users.yaml')

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  test_EditUserRole.py
+#  test_LoginUser.py
 #
 #  Copyright 2016 Eduard Pinuaga Linares <info@did-web.com>
 #
@@ -40,7 +40,7 @@ from zulassung import (Control,Controlador,User,PasswordNotCorrect,
 
 
 
-class TestEditUserRole(unittest.TestCase):
+class TestLoginUser(unittest.TestCase):
 
 	def setUp(self):
 		fileYAML = open('./test/test_data_users.yaml')
@@ -53,10 +53,29 @@ class TestEditUserRole(unittest.TestCase):
 
 
 
-	def test_EditUserRole_sinRegistro_reg_RA(self):
+	def test_LoginUser_yaEstaReg(self):
 		"""
 		Opciones:
-		Usuario: Sin registrar,
+		Usuario: Registrado,
+		reg_users = ROLE_ADMIN
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = False
+		Controler.Role = False
+		Controler.reg_users = 'ROLE_ADMIN'
+		Controler.iduser = 'AUTO'
+
+
+		self.assertRaises(DobleRegistro, lambda:Controler.LoginUser('pep','p'))
+
+
+
+
+	def test_LoginUser_sin_reg_RA(self):
+		"""
+		Opciones:
+		Usuario: sin registrar,
 		reg_users = ROLE_ADMIN
 		"""
 		Controler = User()
@@ -65,12 +84,48 @@ class TestEditUserRole(unittest.TestCase):
 		Controler.Role = False
 		Controler.reg_users = 'ROLE_ADMIN'
 		Controler.iduser = 'AUTO'
-		self.UsersTest
 
-		self.assertRaises(NotCredential, lambda:Controler.EditUserRole('edu','ROLE_VISIT'))
+		self.assertRaises(NotCredential, lambda:Controler.LoginUser('pep','p'))
 
 
-	def test_EditUserRole_propio_U_RA_reg_RA(self):
+
+	def test_LoginUser_sin_reg_NONE(self):
+		"""
+		Opciones:
+		Usuario: sin registrar,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = False
+		Controler.pase = False
+		Controler.Role = False
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+
+		self.assertTrue(lambda:Controler.LoginUser('pep','p'))
+
+
+
+
+	def test_LoginUser_RU_reg_RA(self):
+		"""
+		Opciones:
+		Usuario: ROLE_USER,
+		reg_users = ROLE_ADMIN
+		"""
+		Controler = User()
+		Controler.Login = False
+		Controler.pase = False
+		Controler.Role = 'ROLE_USER'
+		Controler.reg_users = 'ROLE_ADMIN'
+		Controler.iduser = 'AUTO'
+
+		self.assertRaises(NotCredential, lambda:Controler.LoginUser('pep','p'))
+
+
+
+
+	def test_LoginUser_RA_reg_RA(self):
 		"""
 		Opciones:
 		Usuario: ROLE_ADMIN,
@@ -82,50 +137,30 @@ class TestEditUserRole(unittest.TestCase):
 		Controler.Role = 'ROLE_ADMIN'
 		Controler.reg_users = 'ROLE_ADMIN'
 		Controler.iduser = 'AUTO'
-		self.UsersTest
-		Controler.User = 'edu'
 
-		self.assertRaises(NotCredential, lambda:Controler.EditUserRole('edu','ROLE_VISIT'))
+		self.assertTrue( lambda:Controler.LoginUser('edu','e'))
 
 
-	def test_EditUserRole_otro_U_RA_reg_RA(self):
+
+	def test_LoginUser_RA_reg_NONE(self):
 		"""
 		Opciones:
 		Usuario: ROLE_ADMIN,
-		reg_users = ROLE_ADMIN
+		reg_users = NONE
 		"""
 		Controler = User()
 		Controler.Login = False
 		Controler.pase = False
 		Controler.Role = 'ROLE_ADMIN'
-		Controler.reg_users = 'ROLE_ADMIN'
+		Controler.reg_users = 'NONE'
 		Controler.iduser = 'AUTO'
-		self.UsersTest
-		Controler.User = 'edu'
 
-		self.assertTrue( lambda:Controler.EditUserRole('juan','ROLE_VISIT'))
-
-
-	def test_EditUserRole_otro_U_RU_reg_RA(self):
-		"""
-		Opciones:
-		Usuario: ROLE_USER,
-		reg_users = ROLE_ADMIN
-		"""
-		Controler = User()
-		Controler.Login = False
-		Controler.pase = False
-		Controler.Role = 'ROLE_USER'
-		Controler.reg_users = 'ROLE_ADMIN'
-		Controler.iduser = 'AUTO'
-		self.UsersTest
-		Controler.User = 'juan'
-
-		self.assertRaises(NotCredential, lambda:Controler.EditUserRole('pep','ROLE_VISIT'))
+		self.assertTrue( lambda:Controler.LoginUser('edu','e'))
 
 
 
-	def test_EditUserRole_otro_U_RU_reg_NONE(self):
+
+	def test_LoginUser_RU_reg_NONE(self):
 		"""
 		Opciones:
 		Usuario: ROLE_USER,
@@ -137,28 +172,67 @@ class TestEditUserRole(unittest.TestCase):
 		Controler.Role = 'ROLE_USER'
 		Controler.reg_users = 'NONE'
 		Controler.iduser = 'AUTO'
-		self.UsersTest
-		Controler.User = 'juan'
 
-		self.assertTrue( lambda:Controler.EditUserRole('pep','ROLE_VISIT'))
+		self.assertTrue( lambda:Controler.LoginUser('pep','p'))
 
 
-	def test_EditUserRole_propio_U_RU_reg_NONE(self):
+
+
+	def test_LoginUser_Error_password(self):
 		"""
 		Opciones:
-		Usuario: ROLE_USER,
+		Usuario: sin registro,
 		reg_users = NONE
 		"""
 		Controler = User()
 		Controler.Login = False
 		Controler.pase = False
-		Controler.Role = 'ROLE_USER'
+		Controler.Role = False
 		Controler.reg_users = 'NONE'
 		Controler.iduser = 'AUTO'
-		self.UsersTest
-		Controler.User = 'juan'
+		Controler.Users = self.UsersTest
 
-		self.assertTrue( lambda:Controler.EditUserRole('juan','ROLE_VISIT'))
+		self.assertRaises(PasswordNotCorrect, lambda:Controler.LoginUser('pep','xxx'))
+
+
+
+
+	def test_LoginUser_Error_DobleRegistro(self):
+		"""
+		Opciones:
+		Usuario: ROLE_ADMIN,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = False
+		Controler.Role = 'ROLE_ADMIN'
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		Controler.Users = self.UsersTest
+		Controler.User= 'edu'
+
+		self.assertRaises(DobleRegistro, lambda:Controler.LoginUser('edu','e'))
+
+
+
+
+	def test_LoginUser_Error_NoExisteUser(self):
+		"""
+		Opciones:
+		Usuario: sin registrar,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = False
+		Controler.pase = False
+		Controler.Role = False
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		Controler.Users = self.UsersTest
+
+
+		self.assertRaises(UserNotExist, lambda:Controler.LoginUser('mandela','m'))
 
 if __name__ == "__main__":
 	unittest.main()

@@ -1,11 +1,11 @@
 data_users: YAML    # origen de los datos Users Opciones: MYSQL | PSQL | YAML
 data_roles: YAML    # origen de los datos Roles Opciones: MYSQL | PSQL | YAML
 
-reg_users: NONE    # registro de usuarios con Rol_Admin Opciones ROLE_ADMIN | NONE | VISIT_REG
+reg_users: ROLE_ADMIN    # registro de usuarios con Rol_Admin Opciones ROLE_ADMIN | NONE | VISIT_REG
 
 iduser: AUTO   # Creacion de id para user Opciones: AUTO | NONE | IN_BBDD
 
-pw_encrypt: NONE    # Tipo de encriptación para password Opciones: NONE | MD5 | SHA1 | SHA256
+pw_encrypt: NONE    # Tipo de encriptación para password Opciones: NONE | MD5
 pw_min: 3           # Número de caracteres mínimos para el password.
 pw_type: SIMPLE     # Tipo de caracteres Opciones SIMPLE | ALFA_NUM | ALFA_NUM_SYMBOL | CAPS_ALFA_NUM_SYMBOL
 
