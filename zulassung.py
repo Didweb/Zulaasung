@@ -24,9 +24,7 @@
 
 
 from control.exp_control import *
-
 from control.config_control import (CheckConfig)
-
 from data.server_data import (ServerData)
 
 class Control:
@@ -62,43 +60,42 @@ class User(Control):
 
 	def RegUser(self,user,password,role = 'ROLE_USER',iduser = 0):
 
-		credencial = self.Credencial(user)
+		credencial = self.Credencial(user,'RegUser')
 		self.DataServer.RegUser(user,password,role,iduser)
 
 
 
 	def EditUserRole(self,user,NewRole):
 
-		if self.Role == 'ROLE_ADMIN' and self.User != user :
-			self.DataServer.EditRol(user,NewRole)
-		else:
-			raise NotCredential()
+		credencial = self.Credencial(user,'EditUserRole')
+		self.DataServer.EditRol(user,NewRole)
+
 
 
 
 	def EditUserName(self,user,NewName):
 
-		credencial = self.Credencial(user)
-		self.DataServer.EditName(user,NewName)
+		credencial = self.Credencial(user,'EditUserName')
+		self.User = self.DataServer.EditName(user,NewName)
 
 
 
 	def DeleteUser(self,user):
 
-		credencial = self.Credencial(user)
+		credencial = self.Credencial(user,'DeleteUser')
 		self.DataServer.DelUser(user)
 
 
 
 	def CheckRoleUser(self,user):
 
-		credencial = self.Credencial(user)
+		credencial = self.Credencial(user,'CheckRoleUser')
 		return self.DataServer.CheckRoleUser(user)
 
 
 	def CheckIdUser(self,user):
 
-		credencial = self.Credencial(user)
+		credencial = self.Credencial(user,'CheckIdUser')
 		return self.DataServer.CheckIdUser(user)
 
 
@@ -108,7 +105,7 @@ class User(Control):
 		if self.Login == True:
 			raise DobleRegistro()
 
-		credencial = self.Credencial(name)
+		credencial = self.Credencial(name,'LoginUser')
 		self.pase = self.DataServer.Segurata(name,password)
 
 		self.Login = self.pase['login']
@@ -117,29 +114,74 @@ class User(Control):
 		self.Id = self.pase['id']
 
 
-	def Credencial(self,user):
+	def Credencial(self,user,place):
 
-		if self.reg_users == 'ROLE_ADMIN':
-			if self.Login == False:
-				raise NotCredential()
 
-			elif self.Role == 'ROLE_ADMIN':
-				return True
 
-			elif self.Role != 'ROLE_ADMIN' and self.User == user:
-				return True
-
-			else:
-				raise NotCredential()
-
-		elif self.reg_users == 'NONE'  and self.User == user:
+		if place == 'LoginUser':
 			return True
 
-		elif self.reg_users == 'NONE'  and self.User == False :
-			return True
 
-		elif self.reg_users == 'NONE' and self.Role == False:
-			raise NotCredential()
+		elif place == 'CheckIdUser' or place == 'CheckRoleUser' :
+
+			if (self.reg_users == 'ROLE_ADMIN' \
+								or self.reg_users == 'VISIT_REG') \
+								and self.Role != 'ROLE_ADMIN':
+				raise NotCredential()
+
+
+		elif place == 'DeleteUser':
+
+			if (self.reg_users == 'ROLE_ADMIN' \
+								or self.reg_users == 'NONE' \
+								or self.reg_users == 'VISIT_REG') \
+								and self.Role == 'ROLE_ADMIN' \
+								and self.User == user:
+				raise NotCredential()
+
+			if (self.reg_users == 'ROLE_ADMIN' \
+								or self.reg_users == 'VISIT_REG') \
+								and self.Role != 'ROLE_ADMIN' \
+								and self.User != user:
+				raise NotCredential()
+
+
+		elif place == 'EditUserRole':
+
+			if (self.reg_users == 'ROLE_ADMIN' \
+								or self.reg_users == 'NONE' \
+								or self.reg_users == 'VISIT_REG') \
+								and self.Role == 'ROLE_ADMIN' \
+								and self.User == user:
+				raise NotCredential()
+
+			if (self.reg_users == 'ROLE_ADMIN' \
+								or self.reg_users == 'VISIT_REG') \
+								and self.Role != 'ROLE_ADMIN':
+				raise NotCredential()
+
+
+		elif place == 'EditUserName':
+
+			if (self.reg_users == 'ROLE_ADMIN' \
+								or self.reg_users == 'VISIT_REG') \
+								and self.Role != 'ROLE_ADMIN' \
+								and self.User != user:
+				raise NotCredential()
+
+
+		elif place == 'RegUser':
+
+			if self.reg_users == 'ROLE_ADMIN' \
+								and self.Role != 'ROLE_ADMIN':
+				raise NotCredential()
+
+		return True
+
+
+
+
+
 
 
 	def LoginOut(self):
@@ -147,6 +189,7 @@ class User(Control):
 		if self.Login == True:
 			self.Login = False
 			self.pase = False
+			self.Role = False
 		else:
 			raise LoginIsFalse()
 

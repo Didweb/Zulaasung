@@ -104,7 +104,7 @@ class ServerYaml():
 			if self.Con.Config['pw_encrypt'] == 'MD5':
 				password = self.Con.EncryptPw(password)
 
-				passwordData = self.Users['Users'][user]['password']
+			passwordData = self.Users['Users'][user]['password']
 
 			if passwordData == password:
 				self.Login = True
@@ -168,16 +168,18 @@ class ServerYaml():
 							'id':ElUser['id']}
 
 			self.Users['Users'][NewName] = Renmobrado
+
 			del self.Users['Users'][user]
 
 			self.SaveUsers(self.Users)
-
+			return NewName
 		else:
 			raise ValueNotReg()
 
 
 
 	def RoleUser(self,user):
+
 
 		if user in self.Users['Users']:
 			return self.Users['Users'][user]['roles']
