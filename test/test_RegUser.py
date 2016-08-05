@@ -23,13 +23,10 @@
 #
 
 import unittest
-
-
 import sys
-
 import os
-
 import yaml
+import random
 
 
 
@@ -47,6 +44,9 @@ class TestRegUser(unittest.TestCase):
 		UsersTest = yaml.safe_load(fileYAML)
 		fileYAML.close()
 		self.UsersTest = UsersTest
+
+		ran = random.randint(1, 100000)
+		self.ran = str(ran)
 
 
 
@@ -67,7 +67,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.iduser = 'AUTO'
 		self.UsersTest
 
-		self.assertRaises(NotCredential, lambda:Controler.RegUser('pedro','x'))
+		self.assertRaises(NotCredential, lambda:Controler.RegUser('pedro'+self.ran,'x'))
 
 
 	def test_RegUser_sinRegistrar_NONE(self):
@@ -84,7 +84,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.iduser = 'AUTO'
 		self.UsersTest
 
-		self.assertTrue( lambda:Controler.RegUser('pedro','x'))
+		self.assertTrue( lambda:Controler.RegUser('pedro'+self.ran,'x'))
 
 
 	def test_RegUser_u_RA_re_RA(self):
@@ -101,7 +101,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.iduser = 'AUTO'
 		self.UsersTest
 
-		self.assertTrue(lambda:Controler.RegUser('pedro','x'))
+		self.assertTrue(lambda:Controler.RegUser('pedro'+self.ran,'x'))
 
 
 	def test_RegUser_u_RA_re_NONE(self):
@@ -118,7 +118,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.iduser = 'AUTO'
 		self.UsersTest
 
-		self.assertTrue(lambda:Controler.RegUser('pedro','x'))
+		self.assertTrue(lambda:Controler.RegUser('pedro'+self.ran,'x'))
 
 
 	def test_RegUser_u_RU_re_RA(self):
@@ -136,7 +136,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.User = 'pep'
 		self.UsersTest
 
-		self.assertRaises(NotCredential, lambda:Controler.RegUser('pedro','x'))
+		self.assertRaises(NotCredential, lambda:Controler.RegUser('pedro'+self.ran,'x'))
 
 
 
@@ -154,7 +154,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.iduser = 'AUTO'
 		self.UsersTest
 
-		self.assertTrue(lambda:Controler.RegUser('pedro','x'))
+		self.assertTrue(lambda:Controler.RegUser('pedro'+self.ran,'x'))
 
 
 
@@ -173,8 +173,8 @@ class TestRegUser(unittest.TestCase):
 		self.UsersTest
 
 		Controler.pw_min_value = 2
-
-		self.assertRaises(ErrorPasword, lambda:Controler.RegUser('pedro','x'))
+		print (Controler.RegUser('pedro'+self.ran,'x'))
+		self.assertRaises( ErrorPasword , lambda:Controler.RegUser('pedro'+self.ran,'x'))
 
 
 	def test_RegUser_Correct_pw_min(self):
@@ -193,7 +193,7 @@ class TestRegUser(unittest.TestCase):
 
 		Controler.pw_min_value = 2
 
-		self.assertTrue( lambda:Controler.RegUser('pedro','xx'))
+		self.assertTrue( lambda:Controler.RegUser('pedro'+self.ran,'xx'))
 
 
 	def test_RegUser_Correct_Simple(self):
@@ -213,7 +213,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.pw_min_value = 4
 		Controler.pw_type = 'SIMPLE'
 
-		self.assertTrue( lambda:Controler.RegUser('pedro','xxxx'))
+		self.assertTrue( lambda:Controler.RegUser('pedro'+self.ran,'xxxx'))
 
 
 	def test_RegUser_Error_Alfa_num(self):
@@ -233,7 +233,8 @@ class TestRegUser(unittest.TestCase):
 		Controler.pw_min_value = 4
 		Controler.pw_type = 'ALFA_NUM'
 
-		self.assertRaises(ErrorPasword, lambda:Controler.RegUser('pedro','xxxx'))
+
+		self.assertRaises(  ErrorPasword , lambda:Controler.RegUser('pedro'+self.ran,'xxxx'))
 
 
 	def test_RegUser_Correct_Alfa_num(self):
@@ -253,7 +254,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.pw_min_value = 4
 		Controler.pw_type = 'ALFA_NUM'
 
-		self.assertRaises(ErrorPasword, lambda:Controler.RegUser('pedro','xxx1'))
+		self.assertTrue(lambda:Controler.Controler.RegUser('pedro'+self.ran,'xxx1'))
 
 
 	def test_RegUser_Error_Alfa_num_Symbol(self):
@@ -272,8 +273,8 @@ class TestRegUser(unittest.TestCase):
 
 		Controler.pw_min_value = 4
 		Controler.pw_type = 'ALFA_NUM_SYMBOL'
-
-		self.assertRaises(ErrorPasword, lambda:Controler.RegUser('pedro','xxx1'))
+		Controler.User = 'pedro'+self.ran
+		self.assertFalse(lambda:Controler.CheckPassword('xxx1'))
 
 
 
@@ -295,7 +296,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.pw_min_value = 4
 		Controler.pw_type = 'ALFA_NUM_SYMBOL'
 
-		self.assertTrue( lambda:Controler.RegUser('pedro','x1#1'))
+		self.assertTrue( lambda:Controler.CheckPassword('x1#1'))
 
 
 
@@ -317,7 +318,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.pw_min_value = 4
 		Controler.pw_type = 'CAPS_ALFA_NUM_SYMBOL'
 
-		self.assertRaises(ErrorPasword, lambda:Controler.RegUser('pedro','x1#1'))
+		self.assertRaises(ErrorPasword , lambda:Controler.Controler.RegUser('x1#1'))
 
 
 
@@ -339,7 +340,7 @@ class TestRegUser(unittest.TestCase):
 		Controler.pw_min_value = 4
 		Controler.pw_type = 'CAPS_ALFA_NUM_SYMBOL'
 
-		self.assertTrue(lambda:Controler.RegUser('pedro','x1D!'))
+		self.assertTrue(lambda:Controler.RegUser('pedro'+self.ran,'x1D!'))
 
 if __name__ == "__main__":
 	unittest.main()

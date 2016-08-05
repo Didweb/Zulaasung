@@ -23,15 +23,10 @@
 #
 
 import yaml
-
 import sys
-
 import os
-
 import re
-
 from Crypto.Hash import MD5
-
 from control.exp_control import (ErrorConfig,ErrorConfigNoActivo,ErrorPasword)
 
 class CheckConfig:

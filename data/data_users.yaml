@@ -1,5 +1,5 @@
 Users:
-  ROLE_VISIT:
+  edu:
     id: 1
     password: e
     roles: ROLE_ADMIN
@@ -7,9 +7,105 @@ Users:
     id: 3
     password: j
     roles: ROLE_USER
-  pedro:
+  manolete:
+    id: 28
+    password: ss
+    roles: ROLE_USER
+  pedro10361:
+    id: 13
+    password: x
+    roles: ROLE_USER
+  pedro21957:
+    id: 19
+    password: x
+    roles: ROLE_USER
+  pedro31937:
+    id: 5
+    password: x
+    roles: ROLE_USER
+  pedro32774:
+    id: 18
+    password: xxxx
+    roles: ROLE_USER
+  pedro35230:
     id: 4
-    password: xxx1
+    password: x
+    roles: ROLE_USER
+  pedro35273:
+    id: 16
+    password: x
+    roles: ROLE_USER
+  pedro42551:
+    id: 12
+    password: x
+    roles: ROLE_USER
+  pedro43255:
+    id: 21
+    password: x
+    roles: ROLE_USER
+  pedro45129:
+    id: 10
+    password: x
+    roles: ROLE_USER
+  pedro48868:
+    id: 25
+    password: x
+    roles: ROLE_USER
+  pedro53096:
+    id: 24
+    password: xxxx
+    roles: ROLE_USER
+  pedro55964:
+    id: 11
+    password: x
+    roles: ROLE_USER
+  pedro57632:
+    id: 15
+    password: x
+    roles: ROLE_USER
+  pedro58487:
+    id: 14
+    password: x
+    roles: ROLE_USER
+  pedro60278:
+    id: 9
+    password: x
+    roles: ROLE_USER
+  pedro73517:
+    id: 22
+    password: xxxx
+    roles: ROLE_USER
+  pedro74243:
+    id: 27
+    password: x
+    roles: ROLE_USER
+  pedro7506:
+    id: 23
+    password: x
+    roles: ROLE_USER
+  pedro77340:
+    id: 6
+    password: x
+    roles: ROLE_USER
+  pedro80408:
+    id: 20
+    password: xxxx
+    roles: ROLE_USER
+  pedro83770:
+    id: 8
+    password: x
+    roles: ROLE_USER
+  pedro84393:
+    id: 7
+    password: x
+    roles: ROLE_USER
+  pedro86648:
+    id: 26
+    password: xxxx
+    roles: ROLE_USER
+  pedro93506:
+    id: 17
+    password: x
     roles: ROLE_USER
   pep:
     id: 2

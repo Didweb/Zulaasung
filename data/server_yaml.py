@@ -23,7 +23,6 @@
 #
 
 from control.exp_control import (SinImplementar,PasswordNotCorrect,UserNotExist,DuplicateUser)
-
 import yaml
 
 class ServerYaml():

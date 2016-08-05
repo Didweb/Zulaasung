@@ -23,9 +23,7 @@
 #
 
 import yaml
-
 from control.exp_control import (SinImplementar)
-
 from data.server_yaml import(ServerYaml)
 
 class ServerData():

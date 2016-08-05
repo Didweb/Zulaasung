@@ -23,12 +23,8 @@
 #
 
 import unittest
-
-
 import sys
-
 import os
-
 import yaml
 
 
@@ -116,8 +112,7 @@ class TestCheck_Id_Role_LoginOut_Init(unittest.TestCase):
 		Controler.User = 'pep'
 		self.UsersTest
 
-		Res = Controler.CheckRoleUser('pep')
-		self.assertEqual(Res,'ROLE_USER')
+		self.assertRaises(NotCredential, lambda:Controler.CheckRoleUser('pep'))
 
 
 	def test_CheckRoleUser_User_RA_reg_NONE(self):
@@ -203,8 +198,7 @@ class TestCheck_Id_Role_LoginOut_Init(unittest.TestCase):
 		Controler.User = 'pep'
 		self.UsersTest
 
-		Res = Controler.CheckIdUser('pep')
-		self.assertEqual(Res,2)
+		self.assertRaises(NotCredential, lambda:Controler.CheckIdUser('pep'))
 
 
 	def test_CheckIdUser_User_RA_reg_NONE(self):

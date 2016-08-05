@@ -23,12 +23,8 @@
 #
 
 import unittest
-
-
 import sys
-
 import os
-
 import yaml
 
 
@@ -85,7 +81,8 @@ class TestEditUserName(unittest.TestCase):
 		self.UsersTest
 		Controler.User = 'edu'
 
-		self.assertRaises(NotCredential, lambda:Controler.EditUserName('edu','ROLE_VISIT'))
+
+		self.assertTrue( lambda:Controler.EditUserName('edu','ROLE_VISIT'))
 
 
 	def test_EditUserName_otro_U_RA_reg_RA(self):
