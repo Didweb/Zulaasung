@@ -28,6 +28,8 @@ import sys
 
 import os
 
+import re
+
 from Crypto.Hash import MD5
 
 from control.exp_control import (ErrorConfig,ErrorConfigNoActivo,ErrorPasword)
@@ -55,6 +57,12 @@ class CheckConfig:
 		Config['pw_min'] = isinstance( BrutConfig['pw_min'], int )
 		Config['pw_type'] = self.CheckValue(BrutConfig['pw_type'], OpConfig['pw_type'])
 
+		if Config['pw_min'] == True:
+			pw_min_value = BrutConfig['pw_min']
+		else:
+			pw_min_value = 0
+
+		Config['pw_min_value'] = pw_min_value
 		for key,valores in Config.items():
 			if valores == False:
 				raise ErrorConfig()
@@ -63,29 +71,38 @@ class CheckConfig:
 
 
 	def CheckPassword(self,password):
-
 		PwType = self.Config['pw_type']
 
-		PwMin = self.Config['pw_min']
+		PwMin = self.Config['pw_min_value']
 
-		if len(password) < self.Config['pw_min']:
+		if len(password) < PwMin:
 			raise ErrorPasword()
 
 		if PwType == 'SIMPLE':
 			return True
 
 		elif PwType == 'ALFA_NUM':
-			"""if re.match(r'[A-Za-z0-9]', password):
-				print('OK')
+			match = re.search(r'[A-Za-z0-9]', password)
+			if match:
+				return True
 			else:
-				print('NO VALIDO')
-			"""
-			raise SinImplementar()
+				raise ErrorPasword()
+
+
 		elif PwType == 'ALFA_NUM_SYMBOL':
-			raise SinImplementar()
+			match = re.search(r'[A-Za-z0-9][_!&$#@?]', password)
+			if match:
+				return True
+			else:
+				raise ErrorPasword()
 
 		elif PwType == 'CAPS_ALFA_NUM_SYMBOL':
-			raise SinImplementar()
+			match = re.search(r'\d{1,}\w{1,}[_!&$#@?]{1,}', password)
+			if match:
+				return True
+			else:
+				raise ErrorPasword()
+
 		else:
 			return False
 

@@ -39,14 +39,17 @@ class ServerYaml():
 	def RegisterUser(self,OptionIduser,user,password,role,iduser):
 
 		Usuarios = self.Users['Users'].keys()
+		ResPw = False
 
 		if user in Usuarios:
 			raise DuplicateUser()
 		else:
 			ResPw = self.Con.CheckPassword(password)
-			if ResPw == True:
 
+			if ResPw == True:
 				PassFinaly = self.Con.EncryptPw(password)
+			else:
+				raise ErrorPasword()
 
 			CheckValueRole = self.Con.CheckValue(role,self.Roles['Roles'])
 
@@ -101,8 +104,8 @@ class ServerYaml():
 			if self.Con.Config['pw_encrypt'] == 'MD5':
 				password = self.Con.EncryptPw(password)
 
-
 				passwordData = self.Users['Users'][user]['password']
+
 			if passwordData == password:
 				self.Login = True
 				self.User = user

@@ -6,6 +6,6 @@ reg_users: NONE    # registro de usuarios con Rol_Admin Opciones ROLE_ADMIN | NO
 iduser: AUTO   # Creacion de id para user Opciones: AUTO | NONE | IN_BBDD
 
 pw_encrypt: MD5    # Tipo de encriptación para password Opciones: NONE | MD5
-pw_min: 3           # Número de caracteres mínimos para el password.
-pw_type: SIMPLE     # Tipo de caracteres Opciones SIMPLE | ALFA_NUM | ALFA_NUM_SYMBOL | CAPS_ALFA_NUM_SYMBOL
+pw_min: 4          # Número de caracteres mínimos para el password.
+pw_type: CAPS_ALFA_NUM_SYMBOL     # Tipo de caracteres Opciones SIMPLE | ALFA_NUM | ALFA_NUM_SYMBOL | CAPS_ALFA_NUM_SYMBOL
 

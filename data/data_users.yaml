@@ -4,6 +4,31 @@ Users:
     password: !!binary |
       ndTkYSaMgDT1yFZOFVxnpg==
     roles: ROLE_USER
+  anton10:
+    id: 11
+    password: !!binary |
+      CSujzlLzbfzb6bar3mVbOA==
+    roles: ROLE_USER
+  anton11:
+    id: 12
+    password: !!binary |
+      Vx4BLyRQ0g2s/b9A2Raiyw==
+    roles: ROLE_USER
+  anton7:
+    id: 8
+    password: !!binary |
+      dzM58TysM///ji6cVNm8Kg==
+    roles: ROLE_USER
+  anton8:
+    id: 9
+    password: !!binary |
+      CSujzlLzbfzb6bar3mVbOA==
+    roles: ROLE_USER
+  anton9:
+    id: 10
+    password: !!binary |
+      jBV6aeXgy1e6ZSP2xZNZJg==
+    roles: ROLE_USER
   edu:
     id: 1
     password: e
