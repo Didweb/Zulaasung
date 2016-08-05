@@ -97,7 +97,12 @@ class ServerYaml():
 		Usuarios = self.Users['Users'].keys()
 
 		if user in Usuarios:
-			passwordData = self.Users['Users'][user]['password']
+
+			if self.Con.Config['pw_encrypt'] == 'MD5':
+				password = self.Con.EncryptPw(password)
+
+
+				passwordData = self.Users['Users'][user]['password']
 			if passwordData == password:
 				self.Login = True
 				self.User = user

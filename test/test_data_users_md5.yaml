@@ -1,0 +1,9 @@
+# Almacenamos Usuarios
+Users:
+
+  anton:
+    id: 7
+    password: !!binary |
+      ndTkYSaMgDT1yFZOFVxnpg==
+    roles: ROLE_USER
+

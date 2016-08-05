@@ -1,4 +1,9 @@
 Users:
+  anton:
+    id: 7
+    password: !!binary |
+      ndTkYSaMgDT1yFZOFVxnpg==
+    roles: ROLE_USER
   edu:
     id: 1
     password: e

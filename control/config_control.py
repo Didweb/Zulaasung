@@ -98,7 +98,7 @@ class CheckConfig:
 
 		elif PwEncrypt == 'MD5':
 			m = MD5.new()
-			m.update(password)
+			m.update(password.encode('utf-8'))
 			return m.digest()
 
 

@@ -234,5 +234,55 @@ class TestLoginUser(unittest.TestCase):
 
 		self.assertRaises(UserNotExist, lambda:Controler.LoginUser('mandela','m'))
 
+
+
+	def test_LoginUser_ok_con_md5(self):
+		"""
+		Opciones:
+		El password encriptado de prueba es : x
+		Usuario: sin registrar,
+		reg_users = NONE
+		"""
+		fileYAML = open('./test/test_data_users_md5.yaml')
+		UsersTest = yaml.safe_load(fileYAML)
+		fileYAML.close()
+
+		Controler = User()
+		Controler.Login = False
+		Controler.pase = False
+		Controler.Role = False
+		Controler.reg_users = 'NONE'
+		Controler.pw_encrypt = 'MD5'
+		Controler.iduser = 'AUTO'
+		Controler.Users = UsersTest
+
+
+		self.assertTrue(lambda:Controler.LoginUser('anton','x'))
+
+
+
+	def test_LoginUser_Error_con_md5(self):
+		"""
+		Opciones:
+		El password encriptado de prueba es : x
+		Usuario: sin registrar,
+		reg_users = NONE
+		"""
+		fileYAML = open('./test/test_data_users_md5.yaml')
+		UsersTest = yaml.safe_load(fileYAML)
+		fileYAML.close()
+
+		Controler = User()
+		Controler.Login = False
+		Controler.pase = False
+		Controler.Role = False
+		Controler.reg_users = 'NONE'
+		Controler.pw_encrypt = 'MD5'
+		Controler.iduser = 'AUTO'
+		Controler.Users = UsersTest
+
+
+		self.assertRaises(PasswordNotCorrect,lambda:Controler.LoginUser('anton','xxxx'))
+
 if __name__ == "__main__":
 	unittest.main()
