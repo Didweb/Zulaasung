@@ -91,6 +91,7 @@ class CheckConfig:
 
 
 	def EncryptPw(self,password):
+
 		PwEncrypt = self.Config['pw_encrypt']
 		if PwEncrypt == 'NONE':
 			return password
