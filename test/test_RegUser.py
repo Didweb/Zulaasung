@@ -36,7 +36,7 @@ import yaml
 sys.path.append(os.getcwd())
 from zulassung import (Control,Controlador,User,PasswordNotCorrect,
 						DobleRegistro,UserNotExist,LoginIsFalse,
-						NotCredential,ValueNotReg)
+						NotCredential,ValueNotReg,ErrorPasword)
 
 
 
@@ -155,6 +155,191 @@ class TestRegUser(unittest.TestCase):
 		self.UsersTest
 
 		self.assertTrue(lambda:Controler.RegUser('pedro','x'))
+
+
+
+	def test_RegUser_Error_pw_min(self):
+		"""
+		Opciones:
+		Usuario: ROLE_USER,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = True
+		Controler.Role = 'ROLE_USER'
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		self.UsersTest
+
+		Controler.pw_min_value = 2
+
+		self.assertRaises(ErrorPasword, lambda:Controler.RegUser('pedro','x'))
+
+
+	def test_RegUser_Correct_pw_min(self):
+		"""
+		Opciones:
+		Usuario: ROLE_USER,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = True
+		Controler.Role = 'ROLE_USER'
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		self.UsersTest
+
+		Controler.pw_min_value = 2
+
+		self.assertTrue( lambda:Controler.RegUser('pedro','xx'))
+
+
+	def test_RegUser_Correct_Simple(self):
+		"""
+		Opciones:
+		Usuario: ROLE_USER,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = True
+		Controler.Role = 'ROLE_USER'
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		self.UsersTest
+
+		Controler.pw_min_value = 4
+		Controler.pw_type = 'SIMPLE'
+
+		self.assertTrue( lambda:Controler.RegUser('pedro','xxxx'))
+
+
+	def test_RegUser_Error_Alfa_num(self):
+		"""
+		Opciones:
+		Usuario: ROLE_USER,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = True
+		Controler.Role = 'ROLE_USER'
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		self.UsersTest
+
+		Controler.pw_min_value = 4
+		Controler.pw_type = 'ALFA_NUM'
+
+		self.assertRaises(ErrorPasword, lambda:Controler.RegUser('pedro','xxxx'))
+
+
+	def test_RegUser_Correct_Alfa_num(self):
+		"""
+		Opciones:
+		Usuario: ROLE_USER,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = True
+		Controler.Role = 'ROLE_USER'
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		self.UsersTest
+
+		Controler.pw_min_value = 4
+		Controler.pw_type = 'ALFA_NUM'
+
+		self.assertRaises(ErrorPasword, lambda:Controler.RegUser('pedro','xxx1'))
+
+
+	def test_RegUser_Error_Alfa_num_Symbol(self):
+		"""
+		Opciones:
+		Usuario: ROLE_USER,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = True
+		Controler.Role = 'ROLE_USER'
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		self.UsersTest
+
+		Controler.pw_min_value = 4
+		Controler.pw_type = 'ALFA_NUM_SYMBOL'
+
+		self.assertRaises(ErrorPasword, lambda:Controler.RegUser('pedro','xxx1'))
+
+
+
+
+	def test_RegUser_Correct_Alfa_num_Symbol(self):
+		"""
+		Opciones:
+		Usuario: ROLE_USER,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = True
+		Controler.Role = 'ROLE_USER'
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		self.UsersTest
+
+		Controler.pw_min_value = 4
+		Controler.pw_type = 'ALFA_NUM_SYMBOL'
+
+		self.assertTrue( lambda:Controler.RegUser('pedro','x1#1'))
+
+
+
+
+	def test_RegUser_Error_Alfa_num_Symbol_Caps(self):
+		"""
+		Opciones:
+		Usuario: ROLE_USER,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = True
+		Controler.Role = 'ROLE_USER'
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		self.UsersTest
+
+		Controler.pw_min_value = 4
+		Controler.pw_type = 'CAPS_ALFA_NUM_SYMBOL'
+
+		self.assertRaises(ErrorPasword, lambda:Controler.RegUser('pedro','x1#1'))
+
+
+
+
+	def test_RegUser_Correct_Alfa_num_Symbol_Caps(self):
+		"""
+		Opciones:
+		Usuario: ROLE_USER,
+		reg_users = NONE
+		"""
+		Controler = User()
+		Controler.Login = True
+		Controler.pase = True
+		Controler.Role = 'ROLE_USER'
+		Controler.reg_users = 'NONE'
+		Controler.iduser = 'AUTO'
+		self.UsersTest
+
+		Controler.pw_min_value = 4
+		Controler.pw_type = 'CAPS_ALFA_NUM_SYMBOL'
+
+		self.assertTrue(lambda:Controler.RegUser('pedro','x1D!'))
 
 if __name__ == "__main__":
 	unittest.main()
